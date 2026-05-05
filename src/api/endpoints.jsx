@@ -1,5 +1,5 @@
 // export const baseURL = "http://192.168.10.123:8189";
-export const baseURL = "http://localhost:5266/"; //local
+export const baseURL = "http://localhost:5266/"; //local //ye URL sb apis mn same hota ha
 
 export const endpoints = {
   baseURL: baseURL + "/", // dgk local
@@ -12,9 +12,9 @@ export const endpoints = {
   Duas: {
     getDua: "api/Duas",
     searchDua: "api/Duas/Search",
-    GetDuaByTerm: "api/Duas/ByTerm/{term}",
+    GetDuaByTerm: "api/Duas/ByTerm",
     getDuaByIds: "api/Duas/Action/{actionId}/Ritual/{ritualId}",
-    getDuabyId: "api/Duas/{id}",
+    getDuabyId: "api/Duas",
   },
   Package: {
     getPackages: "api/Packages",
@@ -39,7 +39,7 @@ export const endpoints = {
     getUser: "api/Users",
     DeleteUserById: "api/Users/{id}",
     AddUser: "api/Users/Signup",
-    PostLoginUser: "api/Users/Login",
+    PostLoginUser: "api/Users/Login", //means method iska post ha endpoints mn user obj define han us mn post login user api ko use kro //is page p projects mn jitni api use kry gy whi hogi
     PostResetPassword: "api/Users/ResetPassword",
   },
 };

@@ -1,50 +1,254 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./App.css";
+import {
+  FaPassport,
+  FaTicketAlt,
+  FaHotel,
+  FaTshirt,
+  FaBook,
+} from "react-icons/fa";
+import Header from "./Header";
 
 function HajjPacking() {
-  const [progress, setProgress] = useState(0);
+  const checklistData = useMemo(
+    () => ({
+      "TRAVEL DOCUMENTS": [
+        { label: "Passport & Original CNIC", icon: <FaPassport /> },
+        { label: "Flight Tickets & Visa Copy", icon: <FaTicketAlt /> },
+        { label: "Hotel Booking Vouchers", icon: <FaHotel /> },
+      ],
+      "RELIGIOUS ESSENTIALS": [
+        { label: "Two Sets of Ihram (For Men)", icon: <FaTshirt /> },
+        { label: "Pocket Quran & Dua Book", icon: <FaBook /> },
+      ],
+    }),
+    [],
+  );
 
-  const travelDocs = [
-    "Passport & Original CNIC",
-    "Flight Tickets & Visa Copy",
-    "Hotel Booking Vouchers",
-  ];
+  const allItems = Object.values(checklistData).flat();
 
-  const religiousEssentials = [
-    "Two Sets of Ihram (For Men)",
-    "Pocket Quran & Dua Book",
-  ];
+  const [checkedItems, setCheckedItems] = useState([]);
+
+  const progress = Math.round((checkedItems.length / allItems.length) * 100);
+
+  const handleCheck = (item) => {
+    if (checkedItems.includes(item.label)) {
+      setCheckedItems(checkedItems.filter((i) => i !== item.label));
+    } else {
+      setCheckedItems([...checkedItems, item.label]);
+    }
+  };
 
   return (
-    <div className="packing-container">
-      <h2 className="title">Essential Checklist - ZADERAH</h2>
+    <>
+      {" "}
+      <style>{`
+     body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6f5;
+}
 
-      <div className="progress-bar">
-        <label className="progress-label">Packing Progress</label>
-        <div className="bar">
-          <div className="fill" style={{ width: `${progress}%` }}></div>
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+}
+
+.logo {
+  color: #0f3d2e;
+  letter-spacing: 2px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  border: 1px solid #0f3d2e;
+  padding: 8px 20px;
+  border-radius: 25px;
+}
+
+.nav-links span {
+  cursor: pointer;
+  color: #333;
+}
+
+.nav-links .active {
+  color: #0f3d2e;
+  font-weight: 600;
+}
+
+/* PAGE */
+.packing-page {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+/* PROGRESS CARD */
+.progress-card {
+  background: #fff;
+  border: 2px solid #0f3d2e;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  color: #0f3d2e;
+}
+.progress-header h2 {
+  color: #0f3d2e;
+  margin: 0;
+}
+.progress-bar {
+  margin-top: 15px;
+  height: 10px;
+  background: #ddd;
+  border-radius: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #0f3d2e;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+/* SECTION */
+.section-title {
+  color: #0f3d2e;
+  font-weight: 700;
+  margin-bottom: 15px;
+  border-left: 5px solid #0f3d2e;
+  padding-left: 10px;
+}
+
+/* ITEMS */
+.checklist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.checklist-item:hover {
+  background: #f1f5f3;
+}
+
+/* ICON */
+.icon {
+  margin-right: 10px;
+  color: #0f3d2e;
+  font-size: 18px;
+}
+
+/* CHECKBOX */
+.checklist-item input {
+  display: none;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #0f3d2e;
+  margin-right: 10px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.checklist-item.checked .custom-checkbox {
+  background: #0f3d2e;
+}
+
+.checklist-item.checked .custom-checkbox::after {
+  content: "✔";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  left: 3px;
+  top: -1px;
+}
+
+/* TEXT */
+.item-text {
+  font-size: 15px;
+  color: #333;
+}
+
+.checklist-item.checked .item-text {
+  text-decoration: line-through;
+  color: #aaa;
+}
+      `}</style>
+      <div className="page">
+        {/* HEADER */}
+        <Header />
+
+        <div className="packing-page">
+          {/* PROGRESS CARD */}
+          <div className="progress-card">
+            <div className="progress-header">
+              <h2>Packing Progress</h2>
+              <h2>{progress}%</h2>
+            </div>
+
+            <div className="progress-bar">
+              <div
+                className="progress-fill"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          </div>
+
+          {/* SECTIONS */}
+          {Object.keys(checklistData).map((section, idx) => (
+            <div key={idx} className="checklist-section">
+              <h3 className="section-title">{section}</h3>
+
+              <div className="checklist-items">
+                {checklistData[section].map((item, index) => (
+                  <label
+                    key={index}
+                    className={`checklist-item ${
+                      checkedItems.includes(item.label) ? "checked" : ""
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checkedItems.includes(item.label)}
+                      onChange={() => handleCheck(item)}
+                    />
+
+                    <span className="icon">{item.icon}</span>
+
+                    <span className="custom-checkbox"></span>
+
+                    <span className="item-text">{item.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-        <p className="progress-text">{progress}%</p>
       </div>
-
-      <div className="section">
-        <h3>TRAVEL DOCUMENTS</h3>
-        <ul>
-          {travelDocs.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="section">
-        <h3>RELIGIOUS ESSENTIALS</h3>
-        <ul>
-          {religiousEssentials.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    </>
   );
 }
 

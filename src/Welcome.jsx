@@ -5,21 +5,23 @@ import { PostLoginUser } from "./api/ZaderahServices/Zaderah";
 import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
-  const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar(); //ye whi notification wali library ha
+  const navigate = useNavigate(); //navigate routing ka hi part ha
   const [saving, setSaving] = useState(false);
   const [fieldsData, setfieldsData] = useState({
     email: "",
     password: "",
   });
-
+  //Post api integration
   const AddUser = async () => {
     const payload = {
+      //payload basically whi hota ha jo api mn humain paramters pass krne hoty hn ye backend se set hoty hn
       email: fieldsData.email,
       password: String(fieldsData.password),
     };
 
     if (!payload.email) {
+      //ye validation lgai hn agr email ya pass empty tb
       enqueueSnackbar("Please enter valid email", { variant: "warning" });
       return;
     }

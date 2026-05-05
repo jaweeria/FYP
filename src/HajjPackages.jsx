@@ -6,30 +6,6 @@ import { GetPackages, getPackagesByType } from "./api/ZaderahServices/Zaderah";
 import { enqueueSnackbar } from "notistack";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-const packages = [
-  {
-    title: "HAJJ ECONOMY PACKAGE",
-    price: "PKR 950,000",
-    duration: "10 Days Duration",
-    type: "Economy",
-    image: economyImg,
-  },
-  {
-    title: "HAJJ EXECUTIVE PACKAGE",
-    price: "PKR 1,250,000",
-    duration: "12 Days Duration",
-    type: "Executive",
-    image: executiveImg,
-  },
-  {
-    title: "HAJJ PREMIUM PACKAGE",
-    price: "PKR 1,750,000",
-    duration: "15 Days Duration",
-    type: "Premium",
-    image: premiumImg,
-  },
-];
-
 const ClockIcon = () => (
   <svg
     stroke="currentColor"
@@ -78,6 +54,7 @@ function HajjPackages() {
   const navigate = useNavigate();
 
   const fetchPackages = async () => {
+    //function bna lain jo b rkhna chain rkh skty hn fun ka name
     setLoading(true);
 
     try {

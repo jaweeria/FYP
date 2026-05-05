@@ -16,6 +16,11 @@ import UmraExecutivePackages from "./UmrahExecutivePackage";
 import WellCome from "./Welcome";
 import MasjidHaramMap from "./MasjidHaramMap";
 import PackagesDetails from "./PackagesDetails";
+import HajjandUmrahType from "./HajjandUmrahType";
+import HajjandUmrahTypeDetails from "./HajjandUmrahTypeDetails";
+import ActionDetails from "./ActionDetails";
+import HajjGuideandMap from "./HajjGuideandMap";
+import UmrahGuideandMap from "./UmrahGuideandMap";
 
 function App() {
   return (
@@ -36,6 +41,17 @@ function App() {
       <Route path="/umrah-executive" element={<UmraExecutivePackages />} />
       <Route path="/masjidharam-map" element={<MasjidHaramMap />} />
       <Route path="/package-details/:id" element={<PackagesDetails />} />{" "}
+      <Route path="/Type/:type?" element={<HajjandUmrahType />} />
+      <Route path="/guideandmap/:type?" element={<HajjGuideandMap />} />
+      <Route path="/umrahguideandmap/:type?" element={<UmrahGuideandMap />} />
+      <Route
+        path="/type-details/:title"
+        element={<HajjandUmrahTypeDetails />}
+      />
+      <Route
+        path="/action-details/:actionId?/:fiqhId?/:ritualId?"
+        element={<ActionDetails />}
+      />
     </Routes>
   );
 }

@@ -1,5 +1,6 @@
 import { api } from "./config";
-
+//GET hoga to ya // smjh i?//ye functionalag se se iss liyay bnainy tak br br hr module mn code na likhna pre qk time bhi kam hai humre pass
+//or reuseabilty best practice hoti ha as a programmer.. got it?
 export const GET = async (url, params = {}) => {
   try {
     const res = await api.get(url, { params });
@@ -8,7 +9,7 @@ export const GET = async (url, params = {}) => {
     return null;
   }
 };
-
+//agr method POST hoga to ye function run hoga
 export const POST = async (url, data = {}, params = {}) => {
   try {
     const res = await api.post(url, data, { params });

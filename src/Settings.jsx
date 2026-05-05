@@ -1,125 +1,216 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   UserIcon,
   LockClosedIcon,
   QuestionMarkCircleIcon,
   EnvelopeIcon,
-} from "@heroicons/react/16/solid";
-// import { UserIcon } from "@heroicons/react/16/solid";
+} from "@heroicons/react/24/solid";
+import Header from "./Header";
 
 const Settings = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <style>{`
-        .settings-container {
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          font-family: Inter, sans-serif;
+          background: #f4f6f5;
+        }
+
+        /* NAVBAR */
+        .navbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 18px 40px;
+        }
+
+        .logo {
+          font-weight: 700;
+          font-size: 18px;
+          letter-spacing: 2px;
+          color: #0f3d2e;
+        }
+
+        .menu {
+          display: flex;
+          border: 1px solid #0f3d2e;
+          border-radius: 30px;
+          padding: 4px;
+          gap: 2px;
+        }
+
+        .menu span {
+          padding: 6px 16px;
+          font-size: 13px;
+          border-radius: 20px;
+          cursor: pointer;
+          color: #0f3d2e;
+        }
+
+        .menu .active {
+          background: #0f3d2e;
+          color: #fff;
+        }
+
+        /* CENTER */
+        .wrapper {
           display: flex;
           justify-content: center;
-          align-items: center;
-          min-height: 100vh;
-          background-color: #f5f7f6;
+          margin-top: 40px;
         }
 
-        .settings-card {
-          width: 420px;
-          background: #ffffff;
-          padding: 30px 25px;
-          border-radius: 14px;
-          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        .card {
+          width: 500px;
+          background: #fff;
+          border-radius: 16px;
+          padding: 26px;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
 
-        .settings-card h1 {
-          font-size: 26px;
-          margin-bottom: 20px;
-          color: #1f3d34;
+        h1 {
+          margin: 0 0 18px;
+          font-size: 24px;
+          font-weight: 700;
+          color: #0f3d2e;
+        }
+
+        .section {
+          margin-top: 18px;
         }
 
         .section-title {
-          font-size: 12px;
+          font-size: 11px;
+          font-weight: 700;
           color: #6b7c75;
-          font-weight: 600;
-          margin: 18px 0 10px;
+          letter-spacing: 1px;
+          margin-bottom: 8px;
         }
 
-        .setting-item {
+        /* ITEM */
+        .item {
           display: flex;
           align-items: center;
-          padding: 12px 10px;
-          border-radius: 10px;
+          padding: 14px 0;
+          border-bottom: 1px solid #e9eeec;
           cursor: pointer;
-          transition: 0.2s;
         }
 
-        .setting-item:hover {
-          background-color: #f1f5f4;
+        .item:last-child {
+          border-bottom: none;
         }
 
         .icon {
-          width: 38px;
-          height: 38px;
-          background-color: #2f6f5e;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
+          background: #4f9d8a;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-right: 12px;
+          margin-right: 14px;
         }
 
         .icon svg {
-          width: 20px;
-          height: 20px;
-          fill: white;   /* 🔥 FIX: use fill instead of color */
+          width: 18px;
+          height: 18px;
+          fill: #fff;
         }
 
-        .setting-item span {
+        .text {
           flex: 1;
           font-size: 14px;
-          color: #2f3e39;
+          color: #2c3e38;
+          font-weight: 500;
         }
 
         .arrow {
           font-size: 18px;
           color: #9aa5a0;
+          font-weight: 500;
         }
+
+        /* LOGOUT */
+        .logout .icon {
+          background: #e74c3c;
+        }
+
+        .logout .text {
+          color: #e74c3c;
+        }
+
       `}</style>
 
-      <div className="settings-container">
-        <div className="settings-card">
+      {/* NAVBAR */}
+      <Header />
+
+      {/* CARD */}
+      <div className="wrapper">
+        <div className="card">
           <h1>Settings</h1>
 
-          <p className="section-title">ACCOUNT SETTINGS</p>
+          {/* ACCOUNT */}
+          <div className="section">
+            <div className="section-title">ACCOUNT SETTINGS</div>
 
-          <div className="setting-item">
-            <div className="icon">
-              <UserIcon />
+            <div className="item" onClick={() => navigate("/profile")}>
+              <div className="icon">
+                <UserIcon />
+              </div>
+              <div className="text">Profile Information</div>
+              <div className="arrow">&gt;</div>
             </div>
-            <span>Profile Information</span>
-            <span className="arrow">›</span>
+
+            <div className="item">
+              <div className="icon">
+                <LockClosedIcon />
+              </div>
+              <div className="text">Change Password</div>
+              <div className="arrow">&gt;</div>
+            </div>
           </div>
 
-          <div className="setting-item">
-            <div className="icon">
-              <LockClosedIcon />
+          {/* SUPPORT */}
+          <div className="section">
+            <div className="section-title">USER SUPPORT</div>
+
+            <div className="item">
+              <div className="icon">
+                <QuestionMarkCircleIcon />
+              </div>
+              <div className="text">FAQ</div>
+              <div className="arrow">&gt;</div>
             </div>
-            <span>Change Password</span>
-            <span className="arrow">›</span>
+
+            <div className="item">
+              <div className="icon">
+                <EnvelopeIcon />
+              </div>
+              <div className="text">Contact Us (Email)</div>
+              <div className="arrow">&gt;</div>
+            </div>
           </div>
 
-          <p className="section-title">USER SUPPORT</p>
+          {/* DANGER */}
+          <div className="section">
+            <div className="section-title">DANGER ZONE</div>
 
-          <div className="setting-item">
-            <div className="icon">
-              <QuestionMarkCircleIcon />
+            <div className="item logout">
+              <div className="icon">
+                <span style={{ color: "#fff", fontWeight: "bold" }}>⎋</span>
+              </div>
+              <div className="text">Logout</div>
+              <div className="arrow" style={{ color: "#e74c3c" }}>
+                &gt;
+              </div>
             </div>
-            <span>FAQ</span>
-            <span className="arrow">›</span>
-          </div>
-
-          <div className="setting-item">
-            <div className="icon">
-              <EnvelopeIcon />
-            </div>
-            <span>Contact Us (Email)</span>
-            <span className="arrow">›</span>
           </div>
         </div>
       </div>

@@ -1,15 +1,15 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ p = 0 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  console.log(p);
   const brandGreen = "#0f4a36";
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Packages", path: "/hajj-packages" },
+    { name: "Packages", path: "/packages" },
     { name: "CheckList", path: "/hajj-packing" },
     { name: "Profile", path: "/settings" },
   ];
@@ -18,11 +18,13 @@ const Header = () => {
     <>
       <style>{`
         .header-nav {
+
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 40px;
           padding: 10px 0;
+      background: white;
         }
 
         .brand-logo {
@@ -31,6 +33,7 @@ const Header = () => {
           color: ${brandGreen};
           letter-spacing: 1px;
           cursor: pointer;
+          
         }
 
         .nav-links {
@@ -66,26 +69,27 @@ const Header = () => {
           }
         }
       `}</style>
+      <div style={{ padding: p ? p : 0 }}>
+        <header className="header-nav">
+          <div className="brand-logo" onClick={() => navigate("/dashboard")}>
+            ZADERAH
+          </div>
 
-      <header className="header-nav">
-        <div className="brand-logo" onClick={() => navigate("/dashboard")}>
-          ZADERAH
-        </div>
-
-        <nav className="nav-links">
-          {navItems.map((item, index) => (
-            <div
-              key={index}
-              className={`nav-item ${
-                location.pathname === item.path ? "active" : ""
-              }`}
-              onClick={() => navigate(item.path)}
-            >
-              {item.name}
-            </div>
-          ))}
-        </nav>
-      </header>
+          <nav className="nav-links">
+            {navItems.map((item, index) => (
+              <div
+                key={index}
+                className={`nav-item ${
+                  location.pathname === item.path ? "active" : ""
+                }`}
+                onClick={() => navigate(item.path)}
+              >
+                {item.name}
+              </div>
+            ))}
+          </nav>
+        </header>
+      </div>
     </>
   );
 };

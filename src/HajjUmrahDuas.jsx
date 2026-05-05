@@ -1,36 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getDuas, SearchDuas } from "./api/ZaderahServices/Zaderah";
+import { useSnackbar } from "notistack";
+import Header from "./Header";
 
 const HajjUmrahDuas = () => {
-  const [duas, setDuas] = useState([
-    {
-      id: 1,
-      title: "Dua for Entering Umrah",
-      arabic: "اللَّهُمَّ إِنِّي أُرِيدُ الْعُمْرَةَ فَيَسِّرْهَا لِي وَتَقَبَّلْهَا مِنِّي",
-      transliteration:
-        "Allahumma inni ureedu al-'umrata fayassirha li wa taqabbalha minni",
-      meaning:
-        "O Allah, I intend to perform Umrah — make it easy for me and accept it from me.",
-      isSaved: true,
-    },
-    {
-      id: 2,
-      title: "Dua for Entering Hajj",
-      arabic: "اللَّهُمَّ إِنِّي أُرِيدُ الْحَجَّ فَيَسِّرْهُ لِي وَتَقَبَّلْهُ مِنِّي",
-      transliteration:
-        "Allahumma inni ureedu al-hajja fayassirhu li wa taqabbalhu minni",
-      meaning:
-        "O Allah, I intend to perform Hajj — make it easy for me and accept it from me.",
-      isSaved: false,
-    },
-  ]);
+  const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
+  const [seachValue, setSeachValue] = useState("");
+  const [duas, setDuas] = useState([]);
+  const [showSaved, setShowSaved] = useState(false);
 
+  // saved dua IDs store karne k liye
+  const [savedDuaIds, setSavedDuaIds] = useState([]);
+
+  // API se data fetch
+  const fetchDuas = async (searchText = "") => {
+    setLoading(true);
+
+    try {
+      let response;
+
+      if (searchText.trim() && searchText.length >= 3) {
+        response = await SearchDuas(searchText.trim()); // simple pass
+      } else {
+        response = await getDuas();
+      }
+
+      if (response?.length > 0) {
+        const formattedDuas = response.map((dua) => ({
+          id: dua.duaID,
+          title: dua.title,
+          arabic: dua.arabic,
+          transliteration: dua.transliteration,
+          meaning: dua.translation,
+        }));
+
+        setDuas(formattedDuas);
+      } else {
+        setDuas([]);
+        enqueueSnackbar("No duas found", { variant: "error" });
+      }
+    } catch (err) {
+      console.error(err);
+      enqueueSnackbar("Error while fetching duas", { variant: "error" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // page load pe all duas
+  useEffect(() => {
+    fetchDuas();
+  }, []);
+
+  // search input change pe API call
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      fetchDuas(seachValue);
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [seachValue]);
+
+  // save / unsave toggle
   const toggleSave = (id) => {
-    setDuas(
-      duas.map((dua) =>
-        dua.id === id ? { ...dua, isSaved: !dua.isSaved } : dua
-      )
+    setSavedDuaIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
   };
+
+  // saved filter apply
+  const filteredDuas = showSaved
+    ? duas.filter((dua) => savedDuaIds.includes(dua.id))
+    : duas;
 
   return (
     <>
@@ -273,18 +315,8 @@ const HajjUmrahDuas = () => {
       </style>
 
       <div className="page-container">
-        {/* Navigation Bar */}
-        <nav className="navbar">
-          <div className="brand-logo">ZADERAH</div>
-          <div className="nav-links">
-            <span className="nav-item">Dashboard</span>
-            <span className="nav-item">Packages</span>
-            <span className="nav-item">CheckList</span>
-            <span className="nav-item active">Profile</span>
-          </div>
-        </nav>
+        <Header p={1} />
 
-        {/* Main Content */}
         <main className="main-content">
           <h1 className="page-title">HAJJ & UMRAH DUAS</h1>
 
@@ -293,38 +325,46 @@ const HajjUmrahDuas = () => {
             <svg className="search-icon" viewBox="0 0 24 24">
               <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
             </svg>
+
             <input
               type="text"
               className="search-input"
               placeholder="Search for a dua..."
+              value={seachValue}
+              onChange={(e) => setSeachValue(e.target.value)}
             />
           </div>
 
           {/* View Saved Button */}
-          <button className="view-saved-btn">
+          <button
+            className="view-saved-btn"
+            onClick={() => setShowSaved(!showSaved)}
+          >
             <svg className="btn-icon" viewBox="0 0 24 24">
               <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z" />
             </svg>
-            VIEW SAVED DUAS
+            {showSaved ? "VIEW ALL DUAS" : "VIEW SAVED DUAS"}
           </button>
+
+          {/* Loading */}
+          {loading && <p>Loading...</p>}
 
           {/* Dua Cards List */}
           <div className="dua-list">
-            {duas.map((dua) => (
+            {filteredDuas.map((dua) => (
               <div className="dua-card" key={dua.id}>
                 <div className="card-header">
-                  <div className="badge">
-                    <svg className="badge-icon" viewBox="0 0 24 24">
-                      <path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z" />
-                    </svg>
-                    SUPPLICATION
-                  </div>
+                  <div className="badge">SUPPLICATION</div>
+
                   <button
                     className="bookmark-btn"
                     onClick={() => toggleSave(dua.id)}
                   >
-                    {dua.isSaved ? (
-                      <svg className="bookmark-icon" viewBox="0 0 24 24">
+                    {savedDuaIds.includes(dua.id) ? (
+                      <svg
+                        className="bookmark-icon bookmark-icon-saved"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z" />
                       </svg>
                     ) : (

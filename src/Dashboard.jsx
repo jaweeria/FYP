@@ -27,7 +27,7 @@ const Dashboard = () => {
     },
     {
       title: "HAJJ GUIDE & MAP",
-      path: "/hajj-packing",
+      path: "/guideandmap",
       icon: (
         <svg viewBox="0 0 24 24" width="26" height="26" fill={brandGreen}>
           <path d="M15,19L9,16.89V5L15,7.11M20.5,3L15,5.1L9,3L3.5,5.1C3.17,5.21 3,5.5 3,5.83V20.33C3,20.45 3.05,20.57 3.12,20.66C3.21,20.77 3.35,20.83 3.5,20.83C3.61,20.83 3.72,20.79 3.82,20.75L9,18.9L15,21L20.5,18.9C20.83,18.79 21,18.5 21,18.17V3.67C21,3.42 20.88,3.2 20.7,3.08C20.63,3.03 20.56,3 20.5,3Z" />
@@ -36,7 +36,7 @@ const Dashboard = () => {
     },
     {
       title: "UMRAH GUIDE & MAP",
-      path: "/umrah-executive",
+      path: "/umrahguideandmap",
       icon: (
         <svg viewBox="0 0 24 24" width="26" height="26" fill={brandGreen}>
           <path d="M19,2L14,6.5V17.5L19,13V2M6.5,5C4.55,5 2.45,5.4 1,6.5V21.16C1,21.41 1.25,21.66 1.5,21.66C1.6,21.66 1.65,21.59 1.75,21.59C3.1,20.94 5.05,20.5 6.5,20.5C8.45,20.5 10.55,20.9 12,22C13.35,21.15 15.8,20.5 17.5,20.5C19.15,20.5 20.85,20.81 22.25,21.58C22.35,21.61 22.4,21.62 22.5,21.62C22.75,21.62 23,21.37 23,21.12V6.5C21.4,5.31 19.15,5 17.5,5C15.8,5 13.35,5.65 12,6.5C10.55,5.4 8.45,5 6.5,5Z" />
@@ -54,7 +54,7 @@ const Dashboard = () => {
     },
     {
       title: "HAJJ TYPES",
-      path: "/hajj-alifrad",
+      path: "/Type/hajj",
       icon: (
         <svg viewBox="0 0 24 24" width="26" height="26" fill={brandGreen}>
           <path d="M7,5H21V7H7V5M7,11H21V13H7V11M7,17H21V19H7V17M3,5H5V7H3V5M3,11H5V13H3V11M3,17H5V19H3V17Z" />
@@ -63,7 +63,7 @@ const Dashboard = () => {
     },
     {
       title: "UMRAH TYPES",
-      path: "/umrah-executive",
+      path: "/Type/umrah",
       icon: (
         <svg viewBox="0 0 24 24" width="26" height="26" fill={brandGreen}>
           <path d="M11,9H13V7H11V9M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
