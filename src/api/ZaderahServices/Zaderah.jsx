@@ -5,7 +5,8 @@ export const PostLoginUser = (
   params = {}, //yha p function bny hn jo hm modules mn use kr rhy hn ye login wali api ha
 ) => POST(ep.Users.PostLoginUser, params); //method POST ep means endpoints
 export const PostSignupUser = (params = {}) => POST(ep.Users.AddUser, params);
-
+export const postResetPassword = (params = {}) =>
+  POST(ep.Users.PostResetPassword, params);
 export const GetPackages = (data = {}) => GET(ep.Package.getPackages, data);
 export const getPackagesByType = (type) => {
   if (!type) return null;

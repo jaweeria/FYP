@@ -21,7 +21,9 @@ import HajjandUmrahTypeDetails from "./HajjandUmrahTypeDetails";
 import ActionDetails from "./ActionDetails";
 import HajjGuideandMap from "./HajjGuideandMap";
 import UmrahGuideandMap from "./UmrahGuideandMap";
-
+import Profile from "./Profile";
+import ChangePassword from "./ChangePassword";
+import FAQ from "./FAQ";
 function App() {
   return (
     <Routes>
@@ -29,7 +31,7 @@ function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/settings" element={<Settings />} />
-      <Route path="/contact" element={<ContactInfo />} />
+      <Route path="/contactus" element={<ContactInfo />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/hajj-alifrad" element={<HajjAlifrad />} />
       <Route path="/hajj-economy" element={<HajjEconomyPackages />} />
@@ -44,6 +46,9 @@ function App() {
       <Route path="/Type/:type?" element={<HajjandUmrahType />} />
       <Route path="/guideandmap/:type?" element={<HajjGuideandMap />} />
       <Route path="/umrahguideandmap/:type?" element={<UmrahGuideandMap />} />
+      <Route path="/profile" element={<Profile />} />{" "}
+      <Route path="/faq" element={<FAQ />} />{" "}
+      <Route path="/changepassword" element={<ChangePassword />} />
       <Route
         path="/type-details/:title"
         element={<HajjandUmrahTypeDetails />}

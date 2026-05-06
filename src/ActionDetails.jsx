@@ -9,11 +9,13 @@ const ActionDetails = () => {
 
   const [details, setDetails] = useState(null);
   const [activeTab, setActiveTab] = useState("Duas");
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const fiqahId = userData?.fiqhID;
 
   const fetchDetails = async () => {
     debugger;
     try {
-      const response = await getActionswithIds(actionId, 1, 1);
+      const response = await getActionswithIds(actionId, fiqahId, 1);
       setDetails(response);
     } catch (err) {
       console.log(err);

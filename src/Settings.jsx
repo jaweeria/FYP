@@ -168,7 +168,7 @@ const Settings = () => {
               <div className="arrow">&gt;</div>
             </div>
 
-            <div className="item">
+            <div className="item" onClick={() => navigate("/changepassword")}>
               <div className="icon">
                 <LockClosedIcon />
               </div>
@@ -181,7 +181,7 @@ const Settings = () => {
           <div className="section">
             <div className="section-title">USER SUPPORT</div>
 
-            <div className="item">
+            <div className="item" onClick={() => navigate("/faq")}>
               <div className="icon">
                 <QuestionMarkCircleIcon />
               </div>
@@ -189,7 +189,7 @@ const Settings = () => {
               <div className="arrow">&gt;</div>
             </div>
 
-            <div className="item">
+            <div className="item" onClick={() => navigate("/contactus")}>
               <div className="icon">
                 <EnvelopeIcon />
               </div>
@@ -202,7 +202,13 @@ const Settings = () => {
           <div className="section">
             <div className="section-title">DANGER ZONE</div>
 
-            <div className="item logout">
+            <div
+              className="item logout"
+              onClick={() => {
+                localStorage.removeItem("userData");
+                window.location.href = "/";
+              }}
+            >
               <div className="icon">
                 <span style={{ color: "#fff", fontWeight: "bold" }}>⎋</span>
               </div>

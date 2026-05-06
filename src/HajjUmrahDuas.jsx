@@ -9,7 +9,6 @@ const HajjUmrahDuas = () => {
   const [seachValue, setSeachValue] = useState("");
   const [duas, setDuas] = useState([]);
   const [showSaved, setShowSaved] = useState(false);
-
   // saved dua IDs store karne k liye
   const [savedDuaIds, setSavedDuaIds] = useState([]);
 
@@ -67,8 +66,10 @@ const HajjUmrahDuas = () => {
     setSavedDuaIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
-  };
 
+    // 👉 future API hook yahan lagega
+    // saveDua(id)
+  };
   // saved filter apply
   const filteredDuas = showSaved
     ? duas.filter((dua) => savedDuaIds.includes(dua.id))
@@ -260,6 +261,7 @@ const HajjUmrahDuas = () => {
             fill: none;
             stroke: #1a4f44;
             stroke-width: 2;
+            color:#000
           }
 
           .dua-title {
@@ -361,14 +363,24 @@ const HajjUmrahDuas = () => {
                     onClick={() => toggleSave(dua.id)}
                   >
                     {savedDuaIds.includes(dua.id) ? (
-                      <svg
-                        className="bookmark-icon bookmark-icon-saved"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+                      // SAVED → GREEN ICON
+                      <svg className="bookmark-icon" viewBox="0 0 24 24">
+                        <path
+                          fill="green"
+                          d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"
+                        />
                       </svg>
                     ) : (
-                      <svg className="bookmark-icon-empty" viewBox="0 0 24 24">
+                      // OUTLINE ICON
+                      <svg
+                        className="bookmark-icon-empty"
+                        viewBox="0 0 24 24"
+                        width="15"
+                        height="15"
+                        fill="none"
+                        stroke="#000"
+                        // strokeWidth="0."
+                      >
                         <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z" />
                       </svg>
                     )}

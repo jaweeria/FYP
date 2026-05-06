@@ -109,6 +109,8 @@ const Signup = () => {
           color: #0f4d43;
           font-weight: 700;
           margin-bottom: 5px;
+                    font-size: 30px;
+
         }
 
         .subtitle {
@@ -127,6 +129,7 @@ const Signup = () => {
           border: 2px solid #0f4d43;
           outline: none;
           font-size: 14px;
+          background: #ffffff;
         }
 
         .btn {

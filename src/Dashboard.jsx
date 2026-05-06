@@ -103,7 +103,7 @@ const Dashboard = () => {
     <>
       <style>{`
         .dashboard-container {
-          padding: 20px 40px;
+          // padding: 10px 0;
           background-color: #f7f9f8;
           min-height: 100vh;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

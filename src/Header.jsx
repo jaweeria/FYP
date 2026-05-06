@@ -18,13 +18,12 @@ const Header = ({ p = 0 }) => {
     <>
       <style>{`
         .header-nav {
-
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 40px;
-          padding: 10px 0;
-      background: white;
+          padding: 10px 10px 10px 10px;
+         background: white;
         }
 
         .brand-logo {

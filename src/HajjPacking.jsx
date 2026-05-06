@@ -49,38 +49,6 @@ function HajjPacking() {
   background: #f4f6f5;
 }
 
-/* NAVBAR */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-}
-
-.logo {
-  color: #0f3d2e;
-  letter-spacing: 2px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 25px;
-  border: 1px solid #0f3d2e;
-  padding: 8px 20px;
-  border-radius: 25px;
-}
-
-.nav-links span {
-  cursor: pointer;
-  color: #333;
-}
-
-.nav-links .active {
-  color: #0f3d2e;
-  font-weight: 600;
-}
 
 /* PAGE */
 .packing-page {
@@ -165,25 +133,34 @@ function HajjPacking() {
 }
 
 .custom-checkbox {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border: 2px solid #0f3d2e;
-  margin-right: 10px;
-  border-radius: 4px;
-  position: relative;
+  border-radius: 5px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: 0.2s ease-in-out;
+  background: white;
 }
 
+/* checked background */
 .checklist-item.checked .custom-checkbox {
   background: #0f3d2e;
+  border-color: #0f3d2e;
 }
 
+/* tick using borders (clean) */
 .checklist-item.checked .custom-checkbox::after {
-  content: "✔";
-  position: absolute;
-  color: white;
-  font-size: 12px;
-  left: 3px;
-  top: -1px;
+  content: "";
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
 }
 
 /* TEXT */

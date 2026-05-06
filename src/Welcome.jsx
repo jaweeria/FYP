@@ -35,12 +35,12 @@ const Welcome = () => {
 
     try {
       const response = await PostLoginUser(payload);
-      console.log("FULL RESPONSE:", response);
       console.log("DATA:", response.data);
       if (response && (response.status === 200 || response.status === 201)) {
         enqueueSnackbar(response?.message || "Login successfully", {
           variant: "success",
         });
+        localStorage.setItem("userData", JSON.stringify(response?.data));
         navigate("/dashboard");
         setfieldsData({
           email: "",
