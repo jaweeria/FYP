@@ -27,7 +27,8 @@ const Dashboard = () => {
     },
     {
       title: "HAJJ GUIDE & MAP",
-      path: "/guideandmap",
+      // path: "/guideandmap",
+      path: "/demohajjguide",
       icon: (
         <svg viewBox="0 0 24 24" width="26" height="26" fill={brandGreen}>
           <path d="M15,19L9,16.89V5L15,7.11M20.5,3L15,5.1L9,3L3.5,5.1C3.17,5.21 3,5.5 3,5.83V20.33C3,20.45 3.05,20.57 3.12,20.66C3.21,20.77 3.35,20.83 3.5,20.83C3.61,20.83 3.72,20.79 3.82,20.75L9,18.9L15,21L20.5,18.9C20.83,18.79 21,18.5 21,18.17V3.67C21,3.42 20.88,3.2 20.7,3.08C20.63,3.03 20.56,3 20.5,3Z" />

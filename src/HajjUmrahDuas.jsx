@@ -60,15 +60,33 @@ const HajjUmrahDuas = () => {
 
     return () => clearTimeout(delay);
   }, [seachValue]);
-
+  // localStorage se saved IDs load
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("savedDuas")) || [];
+    setSavedDuaIds(saved);
+  }, []);
   // save / unsave toggle
   const toggleSave = (id) => {
-    setSavedDuaIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
+    if (savedDuaIds.includes(id)) {
+      return;
+    }
 
-    // 👉 future API hook yahan lagega
-    // saveDua(id)
+    const updatedSaved = [...savedDuaIds, id];
+
+    setSavedDuaIds(updatedSaved);
+
+    localStorage.setItem("savedDuas", JSON.stringify(updatedSaved));
+
+    enqueueSnackbar("Dua saved", { variant: "success" });
+  };
+  const removeSavedDua = (id) => {
+    const updatedSaved = savedDuaIds.filter((x) => x !== id);
+
+    setSavedDuaIds(updatedSaved);
+
+    localStorage.setItem("savedDuas", JSON.stringify(updatedSaved));
+
+    enqueueSnackbar("Dua removed", { variant: "success" });
   };
   // saved filter apply
   const filteredDuas = showSaved
@@ -88,44 +106,25 @@ const HajjUmrahDuas = () => {
             color: #333;
           }
 
-          /* Navbar */
-          .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
-          }
+    .remove-btn {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  color: #e74c5b;
+  border: 1px solid #f3aab2;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-          .brand-logo {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1a4f44;
-            letter-spacing: 1px;
-          }
-
-          .nav-links {
-            display: flex;
-            gap: 30px;
-            border: 1px solid #1a4f44;
-            border-radius: 30px;
-            padding: 8px 30px;
-          }
-
-          .nav-item {
-            font-size: 13px;
-            color: #666;
-            text-decoration: none;
-            font-weight: 500;
-            cursor: pointer;
-          }
-
-          .nav-item.active {
-            color: #1a4f44;
-            font-weight: 700;
-          }
-
+.remove-btn:hover {
+  background: #fff5f6;
+}
           /* Main Layout */
           .main-content {
             max-width: 800px;
@@ -147,6 +146,7 @@ const HajjUmrahDuas = () => {
             position: relative;
             max-width: 600px;
             margin: 0 auto 20px;
+   
           }
 
           .search-input {
@@ -157,7 +157,8 @@ const HajjUmrahDuas = () => {
             font-size: 14px;
             outline: none;
             color: #333;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);         
+            background: white
           }
 
           .search-input::placeholder {
@@ -400,6 +401,23 @@ const HajjUmrahDuas = () => {
                 <p className="meaning">
                   <span className="meaning-bold">Meaning:</span> {dua.meaning}
                 </p>
+                {showSaved && savedDuaIds.includes(dua.id) && (
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeSavedDua(dua.id)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M9 3V4H4V6H5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V6H20V4H15V3H9ZM7 6H17V19H7V6Z" />
+                    </svg>
+                    Remove from Saved
+                  </button>
+                )}
               </div>
             ))}
           </div>

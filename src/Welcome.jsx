@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "./assets/logo.png"; // Assuming logo is placed here based on your description
 import { useSnackbar } from "notistack";
 import { PostLoginUser } from "./api/ZaderahServices/Zaderah";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Welcome = () => {
   const { enqueueSnackbar } = useSnackbar(); //ye whi notification wali library ha
@@ -222,9 +222,13 @@ const Welcome = () => {
               }}
             />
 
-            <a href="#forgot" className="login-forgot-password">
+            <Link
+              to="/changepassword"
+              state={{ fromForgotPassword: true }}
+              className="login-forgot-password"
+            >
               Forgot password?
-            </a>
+            </Link>
 
             <button
               type="submit"

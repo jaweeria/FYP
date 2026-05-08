@@ -235,9 +235,11 @@ function HajjPackages() {
                     </div>
 
                     <button
-                      onClick={() =>
-                        navigate(`/package-details/${pkg.packageID}`)
-                      }
+                      onClick={() => {
+                        navigate(`/package-details/${pkg.packageID}`, {
+                          state: { type },
+                        });
+                      }}
                     >
                       View Details
                     </button>

@@ -2,10 +2,13 @@
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { postResetPassword } from "./api/ZaderahServices/Zaderah";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ChangePassword() {
   const { enqueueSnackbar } = useSnackbar();
+  const location = useLocation();
+
+  const isForgotFlow = location.state?.fromForgotPassword;
   const navigate = useNavigate();
 
   const [saving, setSaving] = useState(false);
@@ -29,7 +32,7 @@ function ChangePassword() {
       password: String(fieldData.password),
     };
 
-    if (!fieldData.currentPassword) {
+    if (!isForgotFlow && !fieldData.currentPassword) {
       enqueueSnackbar("Please enter current password", { variant: "warning" });
       return;
     }
@@ -69,8 +72,11 @@ function ChangePassword() {
           password: "",
           reEnteredPass: "",
         });
-
-        navigate("/dashboard");
+        if (isForgotFlow) {
+          navigate("/");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         enqueueSnackbar(response?.message || "Password update failed", {
           variant: "error",
@@ -178,17 +184,18 @@ function ChangePassword() {
       <div className="page">
         <div className="card">
           <h2 className="heading">Change Password</h2>
-
-          <div className="group">
-            <label className="label">Current Password</label>
-            <input
-              type="password"
-              placeholder="Enter current password"
-              className="input"
-              value={fieldData.currentPassword}
-              onChange={(e) => handleChange("currentPassword", e)}
-            />
-          </div>
+          {!isForgotFlow && (
+            <div className="group">
+              <label className="label">Current Password</label>
+              <input
+                type="password"
+                placeholder="Enter current password"
+                className="input"
+                value={fieldData.currentPassword}
+                onChange={(e) => handleChange("currentPassword", e)}
+              />
+            </div>
+          )}
 
           <div className="group">
             <label className="label">New Password</label>
@@ -223,9 +230,15 @@ function ChangePassword() {
 
           <button
             className="secondaryBtn"
-            onClick={() => navigate("/settings")}
+            onClick={() => {
+              if (isForgotFlow) {
+                navigate("/");
+              } else {
+                navigate("/settings");
+              }
+            }}
           >
-            ← Back to Settings
+            {isForgotFlow ? "← Back to Login" : " ← Back to Settings"}
           </button>
         </div>
       </div>

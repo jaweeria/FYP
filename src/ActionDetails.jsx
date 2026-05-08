@@ -15,7 +15,7 @@ const ActionDetails = () => {
   const fetchDetails = async () => {
     debugger;
     try {
-      const response = await getActionswithIds(actionId, fiqahId, 1);
+      const response = await getActionswithIds(actionId, fiqahId, 2);
       setDetails(response);
     } catch (err) {
       console.log(err);

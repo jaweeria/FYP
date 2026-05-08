@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetPackages } from "./api/ZaderahServices/Zaderah";
 
@@ -62,6 +62,8 @@ function PackagesDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const packageType = location.state?.type;
   const [pkg, setPkg] = useState(null);
 
   useEffect(() => {
@@ -220,7 +222,21 @@ function PackagesDetails() {
           cursor: pointer;
           transition: all 0.2s ease;
         }
-
+   .avail-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background-color:  ${brandGreen};
+          border: 1.5px solid ${brandGreen};
+          color: #fff;
+       
+          padding: 10px 24px;
+          border-radius: 8px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
         .back-btn:hover {
           background-color: #f0f5f3;
         }
@@ -259,13 +275,28 @@ function PackagesDetails() {
           </div>
 
           <p className="desc-text">{pkg.description}</p>
-
-          <button
+          <div style={{ display: "flex", justifyContent: 'center', gap: '10px' }}>  <button
             className="back-btn"
-            onClick={() => navigate("/hajj-packages")}
+            onClick={() =>
+              navigate(
+                packageType === "umrah" ? "/packages/umrah" : "/packages/hajj",
+              )
+            }
           >
             <ArrowLeftIcon /> Back to Packages
           </button>
+            <button
+              className="avail-btn"
+              onClick={() =>
+                console.log('clicked')
+                // navigate(
+                //   packageType === "umrah" ? "/packages/umrah" : "/packages/hajj",
+                // )
+              }
+            >
+              Avail this Package
+            </button></div>
+
         </div>
       </div>
     </>

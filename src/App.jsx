@@ -24,6 +24,7 @@ import UmrahGuideandMap from "./UmrahGuideandMap";
 import Profile from "./Profile";
 import ChangePassword from "./ChangePassword";
 import FAQ from "./FAQ";
+import DemoHajjGuide from "./DemoHajjGuide";
 function App() {
   return (
     <Routes>
@@ -49,6 +50,7 @@ function App() {
       <Route path="/profile" element={<Profile />} />{" "}
       <Route path="/faq" element={<FAQ />} />{" "}
       <Route path="/changepassword" element={<ChangePassword />} />
+      <Route path="/demohajjguide" element={<DemoHajjGuide />} />
       <Route
         path="/type-details/:title"
         element={<HajjandUmrahTypeDetails />}

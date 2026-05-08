@@ -1,227 +1,270 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import "./App.css";
 import Header from "./Header";
+import { useSnackbar } from "notistack";
 
 const Contactinfo = () => {
+  const form = useRef();
+  const { enqueueSnackbar } = useSnackbar()
+  const [subject, setSubject] = useState("General Inquiry");
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_5m5no5p",
+        "template_tt1ca13",
+        form.current,
+        "eybHzfrPZtEMA-Aov"
+      )
+      .then(
+        (result) => {
+          enqueueSnackbar("Message Sent Successfully", { variant: "success" });
+          form.current.reset();
+        },
+        (error) => {
+          enqueueSnackbar("Failed to Send Message ", { variant: "error" });
+          console.log(error.text);
+        },
+      );
+  };
+
   return (
     <>
       <style>{`
-        .contact-page {
-          width: 100%;
-          min-height: 50vh;
-          background: linear-gradient(135deg, #f5f7f7, #eef3f3);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 40px 15px;
-        }
+       .contact-page {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #f5f7f7, #eef3f3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 12px;
+  box-sizing: border-box;  overflow-y: auto;
+}
 
-        .contact-wrapper {
-          width: 700px;
-          background: #ffffff;
-          border-radius: 18px;
-          overflow: hidden;
-          box-shadow: 0 12px 35px rgba(0,0,0,0.12);
-        }
+.contact-wrapper {
+  width: 100%;
+  max-width: 720px;
+  background: #ffffff;
+  border-radius: 16px;
+overflow: visible;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
 
-        /* Header */
-        .contact-header {
-          background: linear-gradient(135deg, #0f4c45, #1b6b61);
-          padding: 45px 30px;
-          text-align: center;
-          color: white;
-        }
+/* HEADER */
+.contact-header {
+  background: linear-gradient(135deg, #0f4c45, #1b6b61);
+  padding: 22px 16px;
+  text-align: center;
+  color: white;
+}
 
-        .contact-header h2 {
-          margin: 0;
-          font-size: 26px;
-          font-weight: 700;
-          letter-spacing: 2px;
-        }
+.contact-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
-        .contact-header p {
-          margin-top: 10px;
-          font-size: 14px;
-          color: rgba(255,255,255,0.85);
-        }
+.contact-header p {
+  margin-top: 6px;
+  font-size: 13px;
+  opacity: 0.85;
+}
 
-        /* Contact Card */
-        .contact-card {
-          margin: -25px auto 0;
-          width: 88%;
-          background: #ffffff;
-          border-radius: 16px;
-          padding: 22px;
-          text-align: center;
-          box-shadow: 0 8px 20px rgba(0,0,0,0.10);
-          border: 1px solid #eee;
-        }
+/* CONTACT CARD */
+.contact-card {
+  margin: -15px auto 0;
+  width: 92%;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+}
 
-        .contact-card h3 {
-          margin: 0;
-          font-size: 18px;
-          font-weight: 700;
-          color: #0f4c45;
-        }
+.contact-card h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f4c45;
+}
 
-        .email-box {
-          margin-top: 12px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 10px;
-          font-size: 15px;
-          color: #444;
-        }
+.email-box {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #444;
+}
 
-        .icon {
-          width: 38px;
-          height: 38px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: #0f4c45;
-          border-radius: 50%;
-          color: #fff;
-          font-weight: 700;
-          font-size: 16px;
-        }
+.icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f4c45;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+}
 
-        /* Form */
-        .form-container {
-          padding: 35px 40px 30px;
-          text-align: left;
-        }
+/* FORM */
+.form-container {
+  padding: 20px;
+}
 
-        .form-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 18px;
-          width: 100%;
-        }
+/* GRID */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
 
-        .input-group {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-          margin-bottom: 18px;
-          align-items: flex-start;
-        }
+/* INPUT GROUP */
+.input-group {
+  display: flex;
+  flex-direction: column;
+    text-align: left;
+  gap: 5px;
+  margin-bottom: 12px;  
 
-        .input-group label {
-          font-size: 13px;
-          font-weight: 600;
-          color: #0f4c45;
-          width: 100%;
-          text-align: left;
-        }
 
-        .input-group input {
-          width: 100%;
-          padding: 12px 14px;
-          border-radius: 10px;
-          border: 1px solid #ddd;
-          font-size: 14px;
-          outline: none;
-          transition: 0.2s ease-in-out;
-          background: #fafafa;
-          box-sizing: border-box;
-        }
+}
 
-        .input-group input:focus {
-          border-color: #0f4c45;
-          box-shadow: 0 0 0 3px rgba(15, 76, 69, 0.15);
-          background: white;
-        }
+.input-group label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f4c45;
+}
 
-        /* Subject */
-        .subject {
-          margin-top: 15px;
-          width: 100%;
-        }
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 13px;
+  outline: none;
+  background: #fafafa;
+  transition: 0.2s;
+  box-sizing: border-box;
+}
 
-        .subject label {
-          font-weight: 700;
-          color: #0f4c45;
-          font-size: 14px;
-          display: block;
-          text-align: left;
-        }
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #0f4c45;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(15, 76, 69, 0.12);
+}
 
-        .radio-group {
-          margin-top: 12px;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-          width: 100%;
-        }
+/* SUBJECT */
+.subject {
+  margin-top: 10px;
+}
 
-        .radio-item {
-          width: 100%;
-          border: 1px solid #ddd;
-          padding: 10px 12px;
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          cursor: pointer;
-          transition: 0.2s;
-          background: #fafafa;
-          box-sizing: border-box;
-        }
+.subject label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f4c45;
+  display: block;
+  margin-bottom: 8px;  text-align: left;
+}
 
-        .radio-item:hover {
-          border-color: #0f4c45;
-          background: #f0f7f6;
-        }
+/* RADIO GRID */
+.radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 
-        .radio-item input {
-          accent-color: #0f4c45;
-        }
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ddd;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: 0.2s;
+}
 
-        .radio-item span {
-          font-size: 14px;
-          color: #333;
-        }
+.radio-item:hover {
+  border-color: #0f4c45;
+  background: #f0f7f6;
+}
 
-        /* Button */
-        .submit-btn {
-          width: 100%;
-          padding: 13px;
-          border: none;
-          border-radius: 12px;
-          background: #0f4c45;
-          color: white;
-          font-size: 15px;
-          font-weight: 600;
-          cursor: pointer;
-          margin-top: 22px;
-          transition: 0.2s;
-        }
+.radio-item input {
+  accent-color: #0f4c45;
+}
 
-        .submit-btn:hover {
-          background: #0b3a34;
-        }
+.radio-item span {
+  font-size: 13px;
+  color: #333;
+}
 
-        /* Responsive */
-        @media (max-width: 650px) {
-          .contact-wrapper {
-            width: 100%;
-          }
+/* BUTTON */
+.submit-btn {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  background: #0f4c45;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: 0.2s;
+}
 
-          .form-grid {
-            grid-template-columns: 1fr;
-          }
+.submit-btn:hover {
+  background: #0b3a34;
+}
 
-          .radio-group {
-            grid-template-columns: 1fr;
-          }
+/* RESPONSIVE TABLET */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 
-          .form-container {
-            padding: 25px 20px;
-          }
-        }
+  .radio-group {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-header h2 {
+    font-size: 20px;
+  }
+}
+
+/* MOBILE SMALL */
+@media (max-width: 480px) {
+  .contact-wrapper {
+    border-radius: 12px;  margin-bottom: 30px;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .contact-card {
+    padding: 12px;
+  }
+
+  .input-group input,
+  .input-group textarea {
+    font-size: 12px;
+  }
+
+}
       `}</style>
 
       <div
@@ -253,27 +296,28 @@ const Contactinfo = () => {
               </div>
             </div>
 
-            <div className="form-container">
+            {/* FORM */}
+            <form ref={form} onSubmit={sendEmail} className="form-container">
               <div className="form-grid">
                 <div className="input-group">
                   <label>First Name</label>
-                  <input placeholder="John" />
+                  <input name="from_name" placeholder="John" required />
                 </div>
 
                 <div className="input-group">
                   <label>Last Name</label>
-                  <input placeholder="Doe" />
+                  <input name="last_name" placeholder="Doe" required />
                 </div>
               </div>
 
               <div className="input-group">
                 <label>Email</label>
-                <input placeholder="abc@gmail.com" />
+                <input name="email" placeholder="abc@gmail.com" required />
               </div>
 
               <div className="input-group">
                 <label>Phone Number</label>
-                <input placeholder="+1 012 3456 789" />
+                <input name="phone" placeholder="+1 012 3456 789" required />
               </div>
 
               <div className="subject">
@@ -281,29 +325,65 @@ const Contactinfo = () => {
 
                 <div className="radio-group">
                   <label className="radio-item">
-                    <input type="radio" name="subject" defaultChecked />
+                    <input
+                      type="radio"
+                      name="subject"
+                      value="General Inquiry"
+                      checked={subject === "General Inquiry"}
+                      onChange={(e) => setSubject(e.target.value)}
+                    />
                     <span>General Inquiry</span>
                   </label>
 
                   <label className="radio-item">
-                    <input type="radio" name="subject" />
+                    <input
+                      type="radio"
+                      name="subject"
+                      value="Technical Issue"
+                      checked={subject === "Technical Issue"}
+                      onChange={(e) => setSubject(e.target.value)}
+                    />
                     <span>Technical Issue</span>
                   </label>
 
                   <label className="radio-item">
-                    <input type="radio" name="subject" />
+                    <input
+                      type="radio"
+                      name="subject"
+                      value="Feedback"
+                      checked={subject === "Feedback"}
+                      onChange={(e) => setSubject(e.target.value)}
+                    />
                     <span>Feedback</span>
                   </label>
 
                   <label className="radio-item">
-                    <input type="radio" name="subject" />
+                    <input
+                      type="radio"
+                      name="subject"
+                      value="Support"
+                      checked={subject === "Support"}
+                      onChange={(e) => setSubject(e.target.value)}
+                    />
                     <span>Support</span>
                   </label>
                 </div>
               </div>
 
-              <button className="submit-btn">Send Message</button>
-            </div>
+              <div className="input-group">
+                <label>Message</label>
+                <textarea
+                  name="message"
+                  placeholder="Write your message..."
+                  rows="2"
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" className="submit-btn">
+                Send Message
+              </button>
+            </form>
           </div>
         </div>
       </div>
