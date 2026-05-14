@@ -77,7 +77,12 @@ const TawafGuide = () => {
           <div className="rounds">
             {[1, 2, 3, 4, 5, 6, 7].map((r) => (
               <div key={r} className="round-item">
-                <div className={`circle ${round === r ? "active" : ""}`}>
+                <div
+                  className={`circle 
+    ${r < round ? "completed" : ""} 
+    ${r === round ? "active" : ""}
+  `}
+                >
                   {r}
                 </div>
                 <span>Round</span>
@@ -226,7 +231,10 @@ const TawafGuide = () => {
           font-size: 12px;
           color: #888;
         }
-
+.circle.completed {
+  background: #4f9d8a;   /* project theme */
+  color: white;
+}
         /* BADGE */
         .badge {
           background: #6c757d;

@@ -5,6 +5,7 @@ import premiumImg from "./assets/HAJJ PREMIUM PACKAGE.png";
 import { GetPackages, getPackagesByType } from "./api/ZaderahServices/Zaderah";
 import { enqueueSnackbar } from "notistack";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import Header from "./Header";
 
 const ClockIcon = () => (
   <svg
@@ -90,7 +91,7 @@ function HajjPackages() {
         .hajj-packages-wrapper {
           font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
           background-color: #fafafa;
-          min-height: 100vh;
+          min-height: 95vh;
           padding-bottom: 50px;
         }
 
@@ -195,6 +196,7 @@ function HajjPackages() {
       `}</style>
 
       <div className="hajj-packages-wrapper">
+        <Header />
         <div className="hp-container">
           <h1>
             {type === "hajj"

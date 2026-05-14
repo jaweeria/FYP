@@ -1,4 +1,4 @@
-import { GET, POST, FORM, PostForExport } from "../http";
+import { GET, POST, FORM, PostForExport, DELETE } from "../http";
 import { endpoints as ep } from "../endpoints";
 
 export const PostLoginUser = (
@@ -37,3 +37,11 @@ export const getActionswithIds = (actionId, fiqhId, ritualId) => {
     `api/Actions/Details/${actionId}/Fiqh/${fiqhId}/Ritual/${ritualId}`,
   );
 };
+//region Comment
+
+export const getComment = (userID) => {
+  if (!userID) return null;
+  return GET(`${ep.comment.fetchComment}/${userID}`);
+};
+export const PostComment = (params = {}) => POST(ep.comment.addComment, params);
+export const DeleteComment = (params = {}) => DELETE(ep.comment.deleteComment, params);

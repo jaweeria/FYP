@@ -8,46 +8,18 @@ const DemoHajjGuide = () => {
   const navigate = useNavigate();
 
   const [actions, setActions] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(1);
-
+  const [selectedLocation, setSelectedLocation] = useState(() => {
+    return Number(localStorage.getItem("selectedLocation")) || 1;
+  });
   // Marker positions on image
   const locations = [
-    {
-      id: 1,
-      name: "Meeqat",
-      top: "10%",
-      left: "12%",
-    },
-    {
-      id: 2,
-      name: "Al-Masjid al-Haram",
-      top: "40%",
-      left: "12%",
-    },
-    {
-      id: 3,
-      name: "Mina",
-      top: "35%",
-      left: "48%",
-    },
-    {
-      id: 4,
-      name: "Arafat",
-      top: "70%",
-      left: "82%",
-    },
-    {
-      id: 5,
-      name: "Muzdalifah",
-      top: "62%",
-      left: "52%",
-    },
-    {
-      id: 6,
-      name: "Jamarat",
-      top: "48%",
-      left: "38%",
-    },
+    { id: 1, name: "Meeqat", top: "12%", left: "18%" }, // 1
+    { id: 2, name: "Al-Masjid al-Haram", top: "42%", left: "15%" }, // 2
+    { id: 7, name: "Safa Marwah", top: "20%", left: "45%" }, // 3
+    { id: 3, name: "Mina", top: "38%", left: "55%" }, // 4
+    { id: 4, name: "Plains of Arafat", top: "72%", left: "82%" }, // 5
+    { id: 5, name: "Muzdalifah", top: "62%", left: "52%" }, // 6
+    { id: 6, name: "Jamarah", top: "48%", left: "35%" }, // 7
   ];
 
   const fetchActions = async () => {
@@ -65,7 +37,9 @@ const DemoHajjGuide = () => {
   useEffect(() => {
     fetchActions();
   }, []);
-
+  useEffect(() => {
+    localStorage.setItem("selectedLocation", selectedLocation);
+  }, [selectedLocation]);
   // Filter actions by selected location
   const filteredActions = actions.filter(
     (item) => item.locationID === selectedLocation,
@@ -234,7 +208,7 @@ const DemoHajjGuide = () => {
               <div
                 key={action.actionID}
                 className="action-card"
-                onClick={() => navigate(`/action-details/${action.actionID}`)}
+                onClick={() => navigate(`/action-details/${action.actionID}/1`)}
               >
                 <div className="icon-box">{index + 1}</div>
 

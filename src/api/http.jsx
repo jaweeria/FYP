@@ -25,6 +25,7 @@ export const POST = async (url, data = {}, params = {}) => {
     };
   }
 };
+
 // region Post form Export
 export const PostForExport = async (url, data) => {
   try {
@@ -44,6 +45,14 @@ export const PostForExport = async (url, data) => {
 export const PUT = async (url, data = {}) => {
   try {
     const res = await api.put(url, data);
+    return res.data;
+  } catch (err) {
+    return null;
+  }
+};
+export const DELETE = async (url, data = {}) => {
+  try {
+    const res = await api.delete(url, data);
     return res.data;
   } catch (err) {
     return null;

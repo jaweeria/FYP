@@ -56,7 +56,7 @@ function App() {
         element={<HajjandUmrahTypeDetails />}
       />
       <Route
-        path="/action-details/:actionId?/:fiqhId?/:ritualId?"
+        path="/action-details/:actionId?/:ritualId?"
         element={<ActionDetails />}
       />
     </Routes>

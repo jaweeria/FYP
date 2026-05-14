@@ -1,31 +1,77 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import { useParams, useNavigate } from "react-router-dom";
-import { getActionswithIds } from "./api/ZaderahServices/Zaderah";
+import { getActionswithIds, getComment, PostComment } from "./api/ZaderahServices/Zaderah";
+import CustomSnackbar from "./CustomSnackbar";
+import Comment from "./Comment";
 
 const ActionDetails = () => {
   const navigate = useNavigate();
-  const { actionId, fiqhId, ritualId } = useParams();
-
+  const { actionId, ritualId } = useParams();
   const [details, setDetails] = useState(null);
   const [activeTab, setActiveTab] = useState("Duas");
   const userData = JSON.parse(localStorage.getItem("userData"));
+  const userId = userData?.userID
   const fiqahId = userData?.fiqhID;
-
+  const [comments, setComments] = useState([]);
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMsg, setSnackbarMsg] = useState("");
+  const [message, setMessage] = useState("")
   const fetchDetails = async () => {
     debugger;
     try {
-      const response = await getActionswithIds(actionId, fiqahId, 2);
+      const response = await getActionswithIds(actionId, fiqahId, ritualId);
       setDetails(response);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const fetchUserComments = async () => {
+    try {
+      const response = await getComment(userData?.userID);
+
+      const filtered = response?.filter(
+        (c) => c.actionID === Number(actionId)
+      );
+
+      if (filtered?.length > 0) {
+        setComments(filtered);
+
+        // Snackbar show
+        setSnackbarMsg(filtered[0]?.commentText);
+        setSnackbarOpen(true);
+
+      } else {
+        setComments([]);
+
+        setSnackbarMsg("No comments for this action");
+        setSnackbarOpen(true);
+      }
+    } catch (err) {
+      console.log(err);
+
+      setSnackbarMsg("Error fetching comments");
+      setSnackbarOpen(true);
+    }
+  };
   useEffect(() => {
     fetchDetails();
+    fetchUserComments()
   }, []);
+  const handleAddReminder = async () => {
+    const payload = {
+      userID: userId,
+      commentText: message,
+      actionID: actionId
+    }
+    try {
+      const response = await PostComment(payload)
+    } catch (error) {
 
+    }
+  }
   return (
     <>
       <style>
@@ -186,9 +232,37 @@ const ActionDetails = () => {
             font-weight: 700;
             color: #666;
           }
+            .action-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.reminder-btn {
+  background: #1a4f44;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reminder-btn:hover {
+  background: #133a32;
+}
         `}
       </style>
-
+      <CustomSnackbar
+        open={snackbarOpen}
+        message={snackbarMsg}
+        onClose={() => setSnackbarOpen(false)}
+        duration={5000}
+        buttonText="Delete"
+      />
       <div className="page-container">
         <Header p={1} />
 
@@ -212,9 +286,19 @@ const ActionDetails = () => {
                   </span>
                 </div>
 
-                <button className="completed-btn">
-                  <span className="completed-dot"></span> Completed
-                </button>
+                {/* Right Side Buttons */}
+                <div className="action-btns">
+                  <button
+                    className="reminder-btn"
+                    onClick={() => setShowCommentModal(true)}
+                  >
+                    + Reminder
+                  </button>
+
+                  <button className="completed-btn">
+                    <span className="completed-dot"></span> Completed
+                  </button>
+                </div>
               </div>
 
               {/* Tabs */}
@@ -300,7 +384,19 @@ const ActionDetails = () => {
             <p className="loading-text">Loading...</p>
           )}
         </div>
-      </div>
+      </div>{showCommentModal && (
+        <Comment
+          selectedActionId={actionId}
+          onSubmit={handleAddReminder}
+          onClose={() => setShowCommentModal(false)} onSuccess={(msg) => {
+            enqueueSnackbar(msg || "Comment added successfully", {
+              variant: "success",
+            });
+
+            fetchUserComments();
+          }}
+        />
+      )}
     </>
   );
 };

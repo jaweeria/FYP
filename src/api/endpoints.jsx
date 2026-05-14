@@ -42,4 +42,9 @@ export const endpoints = {
     PostLoginUser: "api/Users/Login", //means method iska post ha endpoints mn user obj define han us mn post login user api ko use kro //is page p projects mn jitni api use kry gy whi hogi
     PostResetPassword: "api/Users/ResetPassword",
   },
+  comment: {
+    addComment: "api/Comments",
+    fetchComment: "api/Comments/user",
+    deleteComment: "api/Comments"
+  }
 };
